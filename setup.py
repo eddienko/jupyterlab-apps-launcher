@@ -2,6 +2,8 @@
 jupyterlab-apps-launcher setup
 """
 import json
+
+from glob import glob
 from pathlib import Path
 
 from jupyter_packaging import (
@@ -9,7 +11,7 @@ from jupyter_packaging import (
     install_npm,
     ensure_targets,
     combine_commands,
-    skip_if_exists
+    skip_if_exists,
 )
 import setuptools
 
@@ -18,7 +20,7 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 name = "jupyterlab-apps-launcher"
 
-lab_path = (HERE / name / "labextension")
+lab_path = HERE / name / "labextension"
 
 # Representative files that should exist after a successful build
 jstargets = [
@@ -36,9 +38,8 @@ data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
 ]
 
-cmdclass = create_cmdclass("jsdeps",
-    package_data_spec=package_data_spec,
-    data_files_spec=data_files_spec
+cmdclass = create_cmdclass(
+    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
 )
 
 js_command = combine_commands(
@@ -57,6 +58,9 @@ long_description = (HERE / "README.md").read_text()
 # Get the package info from package.json
 pkg_json = json.loads((HERE / "package.json").read_bytes())
 
+settings_path = "./config/settings/*.json"
+
+
 setup_args = dict(
     name=name,
     version=pkg_json["version"],
@@ -70,6 +74,9 @@ setup_args = dict(
     packages=setuptools.find_packages(),
     install_requires=[
         "jupyterlab~=3.0",
+    ],
+    data_files=[
+        ("share/jupyter/lab/settings", glob(settings_path)),
     ],
     zip_safe=False,
     include_package_data=True,
