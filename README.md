@@ -2,7 +2,22 @@
 
 ![Github Actions Status](https://github.com/github_username/jupyterlab-apps-launcher/workflows/Build/badge.svg)
 
-A JupyterLab extension.
+A JupyterLab extension that replaces the default launcher with one where you can configure which categories appear.
+For example you can remove the "Console" or the "Other" category or you can add a new category. Note that for the
+latter to appear it needs another extension that actually puts launchers in that category.
+
+Categories and their icons are defined in the settings under
+"App Launcher".
+
+## Screenshots
+
+New "Application" section addded.
+
+![](launcher1.png)
+
+Removed console category from launcher.
+
+![](launcher2.png)
 
 
 
